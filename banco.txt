@@ -1,0 +1,13 @@
+create database estoquebd;
+
+use estoquebd;
+
+create table fornecedor(forcod int primary key auto_increment, fornome varchar(250), forendereco varchar(250), foremail varchar(250), forfone varchar(250));
+
+create table categoria(catcod int primary key auto_increment, catnome varchar(250));
+
+create table funcionario(funcod int primary key auto_increment, funnome varchar(250), funfone varchar(250), funsenha varchar(250));
+
+create table item(itemcod int primary key auto_increment, itemnome varchar(250), fornece int, foreign key(fornece) references fornecedor(forcod), quantidade int, itemdata varchar(250), nivel int, categorias int, foreign key (categorias) references categoria(catcod));
+
+create table pedido(pedcod int primary key auto_increment, itemcod int, foreign key(itemcod) references item(itemcod),  itemnome varchar(250), pedidopor int, foreign key(pedidopor) references funcionario(funcod), quantidade int, peddata varchar(250));
