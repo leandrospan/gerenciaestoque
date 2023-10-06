@@ -119,9 +119,19 @@ public class Fornecedores extends javax.swing.JFrame {
 
         jbtneditar.setBackground(new java.awt.Color(255, 20, 175));
         jbtneditar.setText("Atualizar");
+        jbtneditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtneditarActionPerformed(evt);
+            }
+        });
 
         jbtndelete.setBackground(new java.awt.Color(255, 0, 19));
         jbtndelete.setText("Delete");
+        jbtndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtndeleteActionPerformed(evt);
+            }
+        });
 
         jtblfornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -363,6 +373,13 @@ public class Fornecedores extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void limpar(){
+        jtfnomefor.setText("");
+        jtfenderecofor.setText("");
+        jtfemailfor.setText("");
+        jtftelefonefor.setText("");
+    }
+    
     private void jbtnadicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnadicionarActionPerformed
         if(jtfnomefor.getText().isEmpty() || jtfenderecofor.getText().isEmpty() || jtfemailfor.getText().isEmpty() || jtftelefonefor.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Faltam dados!!!");
@@ -380,6 +397,7 @@ public class Fornecedores extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Fornecedor adicionado!");
                 con.close();
                 mostrarFornecedores();
+                limpar();
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
@@ -389,8 +407,60 @@ public class Fornecedores extends javax.swing.JFrame {
     private void jtblfornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblfornecedorMouseClicked
         DefaultTableModel modelo = (DefaultTableModel) jtblfornecedor.getModel();
         int meuIndex = jtblfornecedor.getSelectedRow();
-        chave = Integer.valueOf(modelo.getValueAt(meuIndex, 0).toString());
+        
+        jtfnomefor.setText(modelo.getValueAt(meuIndex, 1).toString());
+        jtfenderecofor.setText(modelo.getValueAt(meuIndex, 2).toString());
+        jtfemailfor.setText(modelo.getValueAt(meuIndex, 3).toString());
+        jtftelefonefor.setText(modelo.getValueAt(meuIndex, 4).toString());
+        if(jtfnomefor.getText().isEmpty()){
+            chave = 0;
+        }else{
+            chave = Integer.valueOf(modelo.getValueAt(meuIndex, 0).toString());
+        }
     }//GEN-LAST:event_jtblfornecedorMouseClicked
+
+    private void jbtneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtneditarActionPerformed
+        if(jtfnomefor.getText().isEmpty() || jtfenderecofor.getText().isEmpty() || jtfemailfor.getText().isEmpty() || jtftelefonefor.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Faltam dados!!!");
+        }else{
+            try{
+                con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+                PreparedStatement adicionar = (PreparedStatement) con.prepareStatement("update fornecedor set fornome = ?, forendereco = ?, foremail = ?, forfone = ? where forcod = ?");
+                adicionar.setInt(5, chave);
+                adicionar.setString(1, jtfnomefor.getText());
+                adicionar.setString(2, jtfenderecofor.getText());
+                adicionar.setString(3, jtfemailfor.getText());
+                adicionar.setString(4, jtftelefonefor.getText());
+                int linha = adicionar.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Fornecedor atualizado!");
+                con.close();
+                mostrarFornecedores();
+                limpar();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jbtneditarActionPerformed
+
+    private void jbtndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtndeleteActionPerformed
+        if(chave == 0){
+            JOptionPane.showMessageDialog(this, "Faltam dados!!!");
+        }else{
+            try{
+                con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+                PreparedStatement adicionar = (PreparedStatement) con.prepareStatement("delete from fornecedor where forcod = ?");
+                adicionar.setInt(1, chave);
+
+                int linha = adicionar.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Fornecedor deletado!");
+                con.close();
+                mostrarFornecedores();
+                limpar();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jbtndeleteActionPerformed
 
     public void contagemFornecedor(){
         try{
