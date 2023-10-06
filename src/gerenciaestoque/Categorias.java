@@ -4,19 +4,62 @@
  */
 package gerenciaestoque;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Leandro
  */
 public class Categorias extends javax.swing.JFrame {
 
+    Connection con = null;
+    Statement st = null, stl = null;
+    ResultSet rs = null, rsl = null;
+    int codcat;
+    int chave = 0;
+    
     /**
      * Creates new form Categorias
      */
     public Categorias() {
         initComponents();
+        mostrarCategorias();
     }
 
+    public void contagemFuncionario(){
+        try{
+            stl = (Statement) con.createStatement();
+            rsl = stl.executeQuery("select max(catcod) from categoria");
+            rsl.next();
+            codcat = (rsl.getInt(1)) + 1;
+        }catch(Exception e){
+            
+        }
+    }
+    
+    private void mostrarCategorias(){
+        try{
+            con = (Connection) DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+            st = (Statement) con.createStatement();
+            rs = st.executeQuery("select * from categoria");
+            jtblcategoria.setModel(DbUtils.resultSetToTableModel(rs));
+        }catch(Exception e){
+            
+        }
+    }
+    
+    private void limpar(){
+        jtfcategoria.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,25 +73,25 @@ public class Categorias extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtfcategoria = new javax.swing.JTextField();
+        jbtnnovo = new javax.swing.JButton();
+        jbtnatualizar = new javax.swing.JButton();
+        jbtndelete = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtblcategoria = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jlblfornecedor = new javax.swing.JLabel();
+        jlblfuncionario = new javax.swing.JLabel();
+        jlblcategoria = new javax.swing.JLabel();
+        jlblsair = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jlblitens = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -67,18 +110,33 @@ public class Categorias extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI Symbol", 1, 14)); // NOI18N
         jLabel10.setText("Nome da Categoria");
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtfcategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 51));
-        jButton1.setText("Novo Item");
+        jbtnnovo.setBackground(new java.awt.Color(255, 204, 51));
+        jbtnnovo.setText("Novo Item");
+        jbtnnovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnnovoActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 20, 175));
-        jButton2.setText("Atualizar");
+        jbtnatualizar.setBackground(new java.awt.Color(255, 20, 175));
+        jbtnatualizar.setText("Atualizar");
+        jbtnatualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnatualizarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 19));
-        jButton3.setText("Delete");
+        jbtndelete.setBackground(new java.awt.Color(255, 0, 19));
+        jbtndelete.setText("Delete");
+        jbtndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtndeleteActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtblcategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -89,7 +147,12 @@ public class Categorias extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jtblcategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblcategoriaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtblcategoria);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -103,22 +166,25 @@ public class Categorias extends javax.swing.JFrame {
                         .addContainerGap(732, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGap(175, 556, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jbtnnovo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jbtnatualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jbtndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(177, 177, 177)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,12 +194,12 @@ public class Categorias extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbtnnovo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnatualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtndelete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -145,27 +211,52 @@ public class Categorias extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gerencia Estoque");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Fornecedores");
+        jlblfornecedor.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblfornecedor.setForeground(new java.awt.Color(255, 255, 255));
+        jlblfornecedor.setText("Fornecedores");
+        jlblfornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblfornecedorMouseClicked(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Funcionários");
+        jlblfuncionario.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblfuncionario.setForeground(new java.awt.Color(255, 255, 255));
+        jlblfuncionario.setText("Funcionários");
+        jlblfuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblfuncionarioMouseClicked(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Categorias");
+        jlblcategoria.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblcategoria.setForeground(new java.awt.Color(255, 255, 255));
+        jlblcategoria.setText("Categorias");
+        jlblcategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblcategoriaMouseClicked(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Sair");
+        jlblsair.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblsair.setForeground(new java.awt.Color(255, 255, 255));
+        jlblsair.setText("Sair");
+        jlblsair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblsairMouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciaestoque/warehouse01.png"))); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Itens");
+        jlblitens.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblitens.setForeground(new java.awt.Color(255, 255, 255));
+        jlblitens.setText("Itens");
+        jlblitens.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblitensMouseClicked(evt);
+            }
+        });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciaestoque/trolley01.png"))); // NOI18N
         jLabel8.setText("jLabel8");
@@ -198,15 +289,15 @@ public class Categorias extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2))
+                                .addComponent(jlblfornecedor))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel12)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel4))
+                                    .addComponent(jlblcategoria))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGap(60, 60, 60)
-                                    .addComponent(jLabel3))
+                                    .addComponent(jlblfuncionario))
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,10 +305,10 @@ public class Categorias extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel7)
+                                    .addComponent(jlblitens)
                                     .addGap(62, 62, 62)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jlblsair, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,7 +326,7 @@ public class Categorias extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jlblitens))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,7 +335,7 @@ public class Categorias extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(jlblfornecedor)
                                 .addGap(15, 15, 15)))
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -253,7 +344,7 @@ public class Categorias extends javax.swing.JFrame {
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jlblfuncionario)
                                 .addGap(17, 17, 17)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -261,11 +352,11 @@ public class Categorias extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
-                                .addComponent(jLabel4)))
+                                .addComponent(jlblcategoria)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
+                        .addComponent(jlblsair)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -287,6 +378,109 @@ public class Categorias extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtblcategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblcategoriaMouseClicked
+        DefaultTableModel modelo = (DefaultTableModel) jtblcategoria.getModel();
+        int meuIndex = jtblcategoria.getSelectedRow();
+
+        jtfcategoria.setText(modelo.getValueAt(meuIndex, 1).toString());
+        if(jtfcategoria.getText().isEmpty()){
+            chave = 0;
+        }else{
+            chave = Integer.valueOf(modelo.getValueAt(meuIndex, 0).toString());
+        }
+    }//GEN-LAST:event_jtblcategoriaMouseClicked
+
+    private void jbtnnovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnnovoActionPerformed
+        if(jtfcategoria.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Faltam dados!!!");
+        }else{
+            try{
+                contagemFuncionario();
+                con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+                PreparedStatement adicionar = (PreparedStatement) con.prepareStatement("insert into categoria values(?, ?)");
+                adicionar.setInt(1, codcat);
+                adicionar.setString(2, jtfcategoria.getText());
+                int linha = adicionar.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Categoria adicionada!");
+                con.close();
+                mostrarCategorias();
+                limpar();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jbtnnovoActionPerformed
+
+    private void jbtndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtndeleteActionPerformed
+        if(chave == 0){
+            JOptionPane.showMessageDialog(this, "Faltam dados!!!");
+        }else{
+            try{
+                con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+                PreparedStatement adicionar = (PreparedStatement) con.prepareStatement("delete from categoria where catcod = ?");
+                adicionar.setInt(1, chave);
+
+                int linha = adicionar.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Categoria deletada!");
+                con.close();
+                mostrarCategorias();
+                limpar();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jbtndeleteActionPerformed
+
+    private void jbtnatualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnatualizarActionPerformed
+        if(jtfcategoria.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Faltam dados!!!");
+        }else{
+            try{
+                con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/estoquebd", "root", "etec8");
+                PreparedStatement adicionar = (PreparedStatement) con.prepareStatement("update categoria set catnome = ? where catcod = ?");
+                adicionar.setInt(2, chave);
+                adicionar.setString(1, jtfcategoria.getText());
+                int linha = adicionar.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Categoria atualizada!");
+                con.close();
+                mostrarCategorias();
+                limpar();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jbtnatualizarActionPerformed
+
+    private void jlblsairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblsairMouseClicked
+        Login lo = new Login();
+        lo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblsairMouseClicked
+
+    private void jlblitensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblitensMouseClicked
+        Itens ite = new Itens();
+        ite.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblitensMouseClicked
+
+    private void jlblfornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblfornecedorMouseClicked
+        Fornecedores forn = new Fornecedores();
+        forn.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblfornecedorMouseClicked
+
+    private void jlblfuncionarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblfuncionarioMouseClicked
+        Funcionarios func = new Funcionarios();
+        func.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblfuncionarioMouseClicked
+
+    private void jlblcategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblcategoriaMouseClicked
+        Categorias cate = new Categorias();
+        cate.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblcategoriaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -324,20 +518,12 @@ public class Categorias extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -349,7 +535,15 @@ public class Categorias extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton jbtnatualizar;
+    private javax.swing.JButton jbtndelete;
+    private javax.swing.JButton jbtnnovo;
+    private javax.swing.JLabel jlblcategoria;
+    private javax.swing.JLabel jlblfornecedor;
+    private javax.swing.JLabel jlblfuncionario;
+    private javax.swing.JLabel jlblitens;
+    private javax.swing.JLabel jlblsair;
+    private javax.swing.JTable jtblcategoria;
+    private javax.swing.JTextField jtfcategoria;
     // End of variables declaration//GEN-END:variables
 }

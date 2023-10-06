@@ -63,17 +63,17 @@ public class Fornecedores extends javax.swing.JFrame {
         jtblfornecedor = new javax.swing.JTable();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jlblfornecedor = new javax.swing.JLabel();
+        jlblfuncionario = new javax.swing.JLabel();
+        jlblcategoria = new javax.swing.JLabel();
+        jlblsair = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jlblitens = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -230,27 +230,52 @@ public class Fornecedores extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gerencia Estoque");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Fornecedores");
+        jlblfornecedor.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblfornecedor.setForeground(new java.awt.Color(255, 255, 255));
+        jlblfornecedor.setText("Fornecedores");
+        jlblfornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblfornecedorMouseClicked(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Funcionários");
+        jlblfuncionario.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblfuncionario.setForeground(new java.awt.Color(255, 255, 255));
+        jlblfuncionario.setText("Funcionários");
+        jlblfuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblfuncionarioMouseClicked(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Categorias");
+        jlblcategoria.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblcategoria.setForeground(new java.awt.Color(255, 255, 255));
+        jlblcategoria.setText("Categorias");
+        jlblcategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblcategoriaMouseClicked(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Sair");
+        jlblsair.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblsair.setForeground(new java.awt.Color(255, 255, 255));
+        jlblsair.setText("Sair");
+        jlblsair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblsairMouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciaestoque/warehouse01.png"))); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Itens");
+        jlblitens.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
+        jlblitens.setForeground(new java.awt.Color(255, 255, 255));
+        jlblitens.setText("Itens");
+        jlblitens.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblitensMouseClicked(evt);
+            }
+        });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gerenciaestoque/trolley01.png"))); // NOI18N
         jLabel8.setText("jLabel8");
@@ -282,15 +307,15 @@ public class Fornecedores extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2))
+                                        .addComponent(jlblfornecedor))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel12)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel4))
+                                            .addComponent(jlblcategoria))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                             .addGap(60, 60, 60)
-                                            .addComponent(jLabel3))
+                                            .addComponent(jlblfuncionario))
                                         .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,10 +323,10 @@ public class Fornecedores extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel7)
+                                            .addComponent(jlblitens)
                                             .addGap(62, 62, 62)))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jlblsair, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(21, 21, 21)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,7 +344,7 @@ public class Fornecedores extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jlblitens))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -328,7 +353,7 @@ public class Fornecedores extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(jlblfornecedor)
                                 .addGap(15, 15, 15)))
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -337,7 +362,7 @@ public class Fornecedores extends javax.swing.JFrame {
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(jlblfuncionario)
                                 .addGap(17, 17, 17)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -345,11 +370,11 @@ public class Fornecedores extends javax.swing.JFrame {
                             .addComponent(jLabel12)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
-                                .addComponent(jLabel4)))
+                                .addComponent(jlblcategoria)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
+                        .addComponent(jlblsair)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -462,6 +487,36 @@ public class Fornecedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtndeleteActionPerformed
 
+    private void jlblsairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblsairMouseClicked
+        Login lo = new Login();
+        lo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblsairMouseClicked
+
+    private void jlblitensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblitensMouseClicked
+        Itens ite = new Itens();
+        ite.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblitensMouseClicked
+
+    private void jlblfornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblfornecedorMouseClicked
+        Fornecedores forn = new Fornecedores();
+        forn.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblfornecedorMouseClicked
+
+    private void jlblfuncionarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblfuncionarioMouseClicked
+        Funcionarios func = new Funcionarios();
+        func.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblfuncionarioMouseClicked
+
+    private void jlblcategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlblcategoriaMouseClicked
+        Categorias cate = new Categorias();
+        cate.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jlblcategoriaMouseClicked
+
     public void contagemFornecedor(){
         try{
             stl = (Statement) con.createStatement();
@@ -528,12 +583,7 @@ public class Fornecedores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -548,6 +598,11 @@ public class Fornecedores extends javax.swing.JFrame {
     private javax.swing.JButton jbtnadicionar;
     private javax.swing.JButton jbtndelete;
     private javax.swing.JButton jbtneditar;
+    private javax.swing.JLabel jlblcategoria;
+    private javax.swing.JLabel jlblfornecedor;
+    private javax.swing.JLabel jlblfuncionario;
+    private javax.swing.JLabel jlblitens;
+    private javax.swing.JLabel jlblsair;
     private javax.swing.JTable jtblfornecedor;
     private javax.swing.JTextField jtfemailfor;
     private javax.swing.JTextField jtfenderecofor;
